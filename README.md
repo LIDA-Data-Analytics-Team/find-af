@@ -4,6 +4,17 @@ Atrial fibrillation (AF) is a common irregular heart rhythm disorder that increa
 
 FIND-AF wants to develop a tool to identify people at risk of AF. A model has been developed which predicts AF risk given a person’s risk factors. FIND-AF want to make the model a publicly available research output by building an API to allow other tools to integrate with the model, e.g. enabling people to discover their own risk.
 
+## Changelog
+
+- Set up demo API that runs in Azure, with an endpoint that takes dummy parameters and returns a dummy output value (endpoint /af).
+- Added documentation to reproduce the API repo and Azure build, set up with continuous deployment
+
+## Todo
+
+- Edit the /af endpoint to include greater input validation and sanitation
+- Edit the /af endpoint to take the model's explanatory variables as input parameters
+- Edit the /af endpoint to use the FIND-AF model to predict an AF risk given the inputs, and return the prediction
+
 ## Design
 
 The API for the atrial fibrillation risk model is built as a Python Flask web app and hosted in Microsoft Azure as an Azure Function.
