@@ -2,6 +2,16 @@ import logging
 from flask import Flask, request
 import azure.functions as func
 
+# This will allow us to pass a np array direct to the model
+import numpy as np
+from rpy2.robjects import numpy2ri
+numpy2ri.activate()
+
+# For calling model object and loading its dependencies 
+import rpy2.robjects as robjects
+from rpy2.robjects.packages import importr
+r = robjects.r
+
 app = Flask(__name__)
 
 # Code from Azure Functions
@@ -76,7 +86,11 @@ def get_af_risk():
     # This is where we'll send the real input vars to a proper AF model
     # The model was written in R, so this will most likely mean calling
     # an R script from within the Python code, passing in the model pars. 
+    #randomForest = importr('randomForest')
+    af = r.readRDS('./r/findaf.RDS')
+    af_pred = r.predict(af)
 
-    output = model_par0 * model_par1 * model_par2
-    return {'AF risk' : output}
+    # output = model_par0 * model_par1 * model_par2
+    # return {'AF risk' : output}
+    return {'AF risk' : af_pred[0]}
 

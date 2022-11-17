@@ -4,3 +4,4 @@
 
 azure-functions
 flask
+rpy2
