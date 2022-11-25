@@ -29,8 +29,17 @@ jobs:
         sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
         sudo apt install r-base
         R --version
+        pwd ~
+        ls ~
+        whoami
+        mkdir ~/Rpackages/
+        echo "$R_LIBS"
+        echo "$R_HOME"
+        echo "export R_LIBS_USER=~/Rpackages/" >> ~/.bash_profile
+        source ~/.bash_profile
+        echo "$R_LIBS_USER"
         wget https://cran.r-project.org/src/contrib/Archive/randomForest/randomForest_4.6-14.tar.gz
-        R CMD INSTALL randomForest_4.6-14.tar.gz
+        R CMD INSTALL randomForest_4.6-14.tar.gz -l=$R_LIBS_USER
         python -m pip install --upgrade pip
         pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
