@@ -27,6 +27,9 @@ jobs:
         wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
         bash Miniconda3-latest-Linux-x86_64.sh -b -u
         conda init bash
+        popd
+        exec bash
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         conda env create -p ./.python_packages -f environment.yml
         conda activate ./.python_packages
         popd
