@@ -24,9 +24,17 @@ jobs:
       shell: bash
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+        bash Miniconda3-latest-Linux-x86_64.sh -b -u
+        conda init bash
+        conda env create -p ./.python_packages -f environment.yml
+        conda activate ./.python_packages
         popd
+#      run: |
+#        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+#        python -m pip install --upgrade pip
+#        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+#        popd
     - name: 'Run Azure Functions action'
       uses: Azure/functions-action@v1
       with:
