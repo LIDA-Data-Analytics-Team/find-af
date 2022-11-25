@@ -4,4 +4,6 @@
 
 azure-functions
 flask
-rpy2
+numpy
+rpy2==3.4.5
+#r-randomForest

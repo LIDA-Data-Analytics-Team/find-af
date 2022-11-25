@@ -75,9 +75,9 @@ def get_af_risk():
         Model prediction of AF risk, given input pars, as JSON HTTP response.
         The dummy model output multiplies all input pars.
     """
-    model_par0 = request.args.get('par0', None, int)
-    model_par1 = request.args.get('par1', None, int)
-    model_par2 = request.args.get('par2', None, int)
+    #model_par0 = request.args.get('par0', None, int)
+    #model_par1 = request.args.get('par1', None, int)
+    #model_par2 = request.args.get('par2', None, int)
 
     # The inputs are sanitised to data type as they're parsed,
     # but include more validation and sanitation here. Mostly
@@ -86,11 +86,10 @@ def get_af_risk():
     # This is where we'll send the real input vars to a proper AF model
     # The model was written in R, so this will most likely mean calling
     # an R script from within the Python code, passing in the model pars. 
-    #randomForest = importr('randomForest')
+    # randomForest = importr('randomForest')
+    importr('randomForest')
     af = r.readRDS('./r/findaf.RDS')
     af_pred = r.predict(af)
-
-    # output = model_par0 * model_par1 * model_par2
-    # return {'AF risk' : output}
+    
     return {'AF risk' : af_pred[0]}
 
