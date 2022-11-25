@@ -24,18 +24,15 @@ jobs:
       shell: bash
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-        bash Miniconda3-latest-Linux-x86_64.sh -b -u
-        conda init bash
-        popd
-        exec bash
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        pip install azure-functions
-        pip install flask
-        pip install numpy
-        conda install r-base=3.6.1
-        conda install r-randomForest=4.6_14
-        pip install rpy2=3.4.5
+        sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+        sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
+        sudo apt install r-base
+        R --version
+        wget https://cran.r-project.org/src/contrib/Archive/randomForest/randomForest_4.6-14.tar.gz
+        R CMD INSTALL randomForest_4.6-14.tar.gz
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
     - name: 'Run Azure Functions action'
       uses: Azure/functions-action@v1
