@@ -30,14 +30,13 @@ jobs:
         popd
         exec bash
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        conda env create -p ./.python_packages -f environment.yml
-        conda activate ./.python_packages
+        pip install azure-functions
+        pip install flask
+        pip install numpy
+        conda install r-base=3.6.1
+        conda install r-randomForest=4.6_14
+        pip install rpy2=3.4.5
         popd
-#      run: |
-#        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-#        python -m pip install --upgrade pip
-#        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
-#        popd
     - name: 'Run Azure Functions action'
       uses: Azure/functions-action@v1
       with:
