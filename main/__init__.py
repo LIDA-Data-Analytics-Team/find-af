@@ -4,6 +4,7 @@ import azure.functions as func
 
 # Import sklearn random forest model that'll be used with loaded
 # model joblib object to predict AF.
+import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from joblib import load
 

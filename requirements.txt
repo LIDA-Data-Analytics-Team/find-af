@@ -4,5 +4,6 @@
 
 azure-functions
 flask
+numpy
 scikit-learn
 joblib
