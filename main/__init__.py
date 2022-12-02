@@ -2,6 +2,13 @@ import logging
 from flask import Flask, request
 import azure.functions as func
 
+# Import scikit-learn random forest model package
+# that will be used with loaded model to predict AF
+# Also import packages needed to load model.
+from sklearn.ensemble import RandomForestRegressor
+#import pickle
+from joblib import load
+
 app = Flask(__name__)
 
 # Code from Azure Functions
@@ -65,18 +72,27 @@ def get_af_risk():
         Model prediction of AF risk, given input pars, as JSON HTTP response.
         The dummy model output multiplies all input pars.
     """
-    model_par0 = request.args.get('par0', None, int)
-    model_par1 = request.args.get('par1', None, int)
-    model_par2 = request.args.get('par2', None, int)
+    #model_par0 = request.args.get('par0', None, int)
+    #model_par1 = request.args.get('par1', None, int)
+    #model_par2 = request.args.get('par2', None, int)
 
     # The inputs are sanitised to data type as they're parsed,
     # but include more validation and sanitation here. Mostly
     # can't be done until we know what the real input pars will be.
     
     # This is where we'll send the real input vars to a proper AF model
-    # The model was written in R, so this will most likely mean calling
-    # an R script from within the Python code, passing in the model pars. 
+    # The model will be written in Python scikit-learn, saved as a
+    # pickle/joblib file. Load the model then make a prediction given
+    # the input pars.
 
-    output = model_par0 * model_par1 * model_par2
-    return {'AF risk' : output}
+    # Shape input pars into np array of len 1. The element is itself an array
+    # of len = number of pars:
+    # X = [[input_pars]]
+    X = [[0, 0, 0, 0]]
 
+    # Load model. Currently dummy model, swap out for real model in prod.
+    af_model = load('./data/demo_model.joblib')
+    af_pred = af_model.predict(X)
+
+    #output = model_par0 * model_par1 * model_par2
+    return {'AF risk' : af_pred[0]}
