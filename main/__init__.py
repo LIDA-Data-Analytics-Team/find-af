@@ -2,11 +2,9 @@ import logging
 from flask import Flask, request
 import azure.functions as func
 
-# Import scikit-learn random forest model package
-# that will be used with loaded model to predict AF
-# Also import packages needed to load model.
+# Import sklearn random forest model that'll be used with loaded
+# model joblib object to predict AF.
 from sklearn.ensemble import RandomForestRegressor
-#import pickle
 from joblib import load
 
 app = Flask(__name__)
@@ -18,22 +16,6 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     so we can handle requests using Flask code.
     """
     logging.info('Python HTTP trigger function processed a request.')
-
-    # name = req.params.get('name')
-    # if not name:
-    #     try:
-    #         req_body = req.get_json()
-    #     except ValueError:
-    #         pass
-    #     else:
-    #         name = req_body.get('name')
-    # if name:
-    #     return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
-    # else:
-    #     return func.HttpResponse(
-    #          "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-    #          status_code=200
-    #     )
 
     # The Azure Function invocation passes requests to "app", the Flask app
     return func.WsgiMiddleware(app.wsgi_app).handle(req, context)
@@ -94,5 +76,4 @@ def get_af_risk():
     af_model = load('./data/demo_model.joblib')
     af_pred = af_model.predict(X)
 
-    #output = model_par0 * model_par1 * model_par2
     return {'AF risk' : af_pred[0]}
