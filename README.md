@@ -8,12 +8,13 @@ FIND-AF wants to develop a tool to identify people at risk of AF. A model has be
 
 - Set up demo API that runs in Azure, with an endpoint that takes dummy parameters and returns a dummy output value (endpoint /af).
 - Added documentation to reproduce the API repo and Azure build, set up with continuous deployment
+- Integrated dummy sklearn random regression model to make fake prediction
 
 ## Todo
 
 - Edit the /af endpoint to include greater input validation and sanitation
 - Edit the /af endpoint to take the model's explanatory variables as input parameters
-- Edit the /af endpoint to use the FIND-AF model to predict an AF risk given the inputs, and return the prediction
+- Edit the /af endpoint to replace the dummy model with FIND-AF's model
 
 ## Design
 
