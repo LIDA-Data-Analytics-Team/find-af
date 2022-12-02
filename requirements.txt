@@ -4,3 +4,5 @@
 
 azure-functions
 flask
+scikit-learn
+joblib
